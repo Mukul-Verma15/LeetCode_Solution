@@ -1,0 +1,42 @@
+bool isPalindrome(ListNode* head) {
+        //Middle Element 
+        ListNode* slow=head;
+        ListNode*fast=head;
+        
+        if(head==NULL || head->next==NULL)  return true;
+
+        while(fast!=NULL && fast->next!=NULL)
+        {
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+
+        //Reverse second half
+
+        ListNode* prev=NULL;
+        ListNode* forw=NULL;
+
+        while(slow!=NULL)
+        {
+            forw=slow->next;
+            slow->next=prev;
+            prev=slow;
+            slow=forw;
+        }
+
+
+        // Compare
+
+        ListNode* left=head;
+        ListNode* right=prev;
+
+
+        while(right!=NULL){
+
+            if(left->val!=right->val)return false;
+        
+            left=left->next;
+            right=right->next;
+        }
+        return true;
+    }
