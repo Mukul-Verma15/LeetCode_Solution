@@ -1,0 +1,46 @@
+class Solution {
+public:
+    bool doCheckIfValidSubstring(string s, int width,
+                                 unordered_map<string, int> hshMap) {
+        for (int i = 0; i < s.length(); i += width) {
+            string str = s.substr(i, width);
+            if (hshMap.find(str) != hshMap.end()) {
+                if (--hshMap[str] == -1) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+    vector<int> findSubstring(string s, vector<string>& words) {
+       if (words.empty() || s.empty())
+            return {};
+
+        // Step - 1 -> Implement hash table to store the occurrence of the words
+        // items.
+
+        unordered_map<string, int> hshMap;
+        for (string str : words) {
+            hshMap[str]++;
+        }
+
+        int intervalSize = words[0].length();
+        int windowSize = words.size() * intervalSize;
+        if (s.length() < windowSize)
+            return {};
+        vector<int> ans;
+
+        // Step - 2 -> Move through the string s, and check for substring to
+        // validate the given problem.
+
+        for (int i = 0; i <= s.length() - windowSize; i++) {
+            if (doCheckIfValidSubstring(s.substr(i, windowSize), intervalSize,
+                                        hshMap)) {
+                ans.push_back(i);
+            }
+        }
+        return ans; 
+    }
+};
