@@ -1,0 +1,22 @@
+ int n = height.size();
+        int right = n-1;
+        int left = 0;
+        int leftMax = height[left];
+        int rightMax = height[right];
+        int res = 0;
+        while(left<right)
+        {
+            if(height[left]<=height[right])
+            {
+                leftMax = max(leftMax,height[left]);
+                res += abs(height[left]-leftMax);
+                left++;
+            }
+            else if(height[left]>height[right])
+            {
+                rightMax = max(rightMax,height[right]);
+                res+= abs(height[right]-rightMax);
+                right--;
+            }
+        }
+        return res;
