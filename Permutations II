@@ -1,0 +1,28 @@
+class Solution {
+     vector<vector<int>> res ;
+    void solve(map<int,int> &m){
+        static vector<int> arr ;
+        if(m.size() == 0){
+            res.push_back(arr) ;
+            return ;
+        }
+        vector<int> temp ;
+        for(auto x : m) temp.push_back(x.first) ;
+        for(int x : temp){
+            arr.push_back(x) ;
+            int initial_count = m[x] ;
+            --m[x] ;
+            if(m[x] <= 0) m.erase(x) ;
+            solve(m) ;
+            m[x] = initial_count ;
+            arr.pop_back() ;
+        }
+    }
+public:
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+         map<int,int> m ;  
+        for(int x : nums) ++m[x] ;
+        solve(m) ;
+        return res; 
+    }
+};
