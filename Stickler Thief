@@ -1,0 +1,17 @@
+class Solution {
+  public:
+   int solve(int idx,vector<int>& arr,vector<int>& dp){
+        if(idx<0) return 0;
+        if(dp[idx]!=-1) return dp[idx];
+        int not_take=solve(idx-1,arr,dp);
+        int take=arr[idx] + solve(idx-2,arr,dp);
+        return dp[idx]=max(take,not_take);
+    }
+    int findMaxSum(vector<int>& arr) {
+        // code here
+        int n=arr.size();
+        vector<int> dp(n,-1);
+        return solve(n-1,arr,dp);
+        
+    }
+};
