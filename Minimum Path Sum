@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int wrap(vector<vector<int>>& grid, vector<vector<int>>& dp, int i, int j, int rows, int cols) {
+        // If out of bounds, return a large value (infinity).
+        if (i >= rows || j >= cols) return 1e9; 
+        
+        // If we reached the bottom-right corner, return its value.
+        if (i == rows - 1 && j == cols - 1) return grid[i][j];
+
+        // If already computed, return stored result.
+        if (dp[i][j] != -1) return dp[i][j];
+
+        // Compute the minimum path sum from the right and down cells.
+        int right = wrap(grid, dp, i, j + 1, rows, cols);
+        int down = wrap(grid, dp, i + 1, j, rows, cols);
+        
+        // Store and return the minimum path sum for the current cell.
+        return dp[i][j] = grid[i][j] + min(right, down);
+    }
+
+    int minPathSum(vector<vector<int>>& grid) {
+        int rows = grid.size(), cols = grid[0].size();
+        
+        // Initialize dp array with -1 to indicate uncalculated cells.
+        vector<vector<int>> dp(rows, vector<int>(cols, -1));
+        
+        // Start recursion from the top-left corner.
+        return wrap(grid, dp, 0, 0, rows, cols);
+    }
+};
