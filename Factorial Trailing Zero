@@ -1,0 +1,24 @@
+class Solution {
+public:
+int CalculateFact(int n){
+   int Fact=1;
+
+    for(int i=2;i<=n;i++){
+        Fact*=i;
+    }
+    return Fact;
+}
+ int GetCount(int n){
+    int num=CalculateFact(n);
+    int Count=0;
+
+       while(num%10==0){
+        Count++;
+        num=num/10;
+       }
+       return Count;
+ }
+    int trailingZeroes(int n) {
+        return GetCount(n);
+    }
+};
