@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int maxProfit(int k, vector<int>& price) {
+        int n = price.size();
+
+        vector<vector<int>> buy(k + 1, vector<int>(n));
+        //buy[t][i] = max profit after buying t'th stock on i'th index
+        vector<vector<int>> profit(k + 1, vector<int>(n));
+        //profit[t][i] = max profit after completing t tranx on i'th index
+
+        for(int i = 0; i < n; i++)
+        {
+            for(int t = 1; t <= k; t++)
+            {
+                // max profit we can get on buying t'th stock here on i'th index
+                // = (-item price) + profit after completing t-1 tranx on i-1'th index
+                // or we have already bought t'th stock
+                if(i) buy[t][i] = max(buy[t][i - 1], profit[t - 1][i - 1] - price[i]);
+                else buy[t][0] = -price[i];
+
+                // max profit after completing total of t tranx
+                // = we completed t tranx on i-1'th index or we complete t tranx here
+                if(i) profit[t][i] = max(profit[t][i - 1], price[i] + buy[t][i]);
+            }
+        }
+        
+        return profit[k][n - 1];
+    }
+};
